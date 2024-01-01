@@ -1,4 +1,9 @@
-### Hi there 👋
+### Hi there is Zihan Wang👋
+
+> - 🌱 Still learning some basic computer languages
+> - 📷 Like photographing
+> - 🏸 Often play badminton for fun
+> - :runner: Also a runner
 
 <!--
 **wangzh12023/wangzh12023** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
@@ -14,3 +19,4 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
