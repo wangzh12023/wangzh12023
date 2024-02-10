@@ -1,23 +1,39 @@
-<!--[![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=wangzh12023)](https://github.com/ashutosh00710/github-readme-activity-graph)
+<div align="center">
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Ma+Shan+Zheng&weight=900&size=25&pause=1000&color=8E85F7&center=true&vCenter=true&random=false&width=435&lines=%E7%A5%9D%E4%BD%A0%E5%BC%80%E5%BF%83%E5%8F%91%E5%A4%A7%E8%B4%A2!" alt="Typing SVG" /></a>
+  <br>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/coding.gif" />
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/developer.svg" height="225px" />
+    <img src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/coding.gif" />
+  </picture>
+</div>
+<div>
+  <img src="https://github.com/wangzh12023/wangzh12023/assets/cxyduck.gif" style="position: relative; top: 2px; left: 3000px;" alt="Image">
+</div>
+
+[![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=wangzh12023)](https://github.com/ashutosh00710/github-readme-activity-graph)
 <br><br><br><br>
 [![GitHub Streak](https://streak-stats.demolab.com/?user=wangzh12023)](https://git.io/streak-stats)
-<br><br><br>
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Noto+Sans+Hong+Kong&weight=900&size=25&duration=4000&pause=2000&color=8E80F7&background=FF684E00&vCenter=true&random=false&width=435&lines=%E7%A5%9D%E4%BD%A0%E5%BC%80%E5%BF%83%E5%8F%91%E5%A4%A7%E8%B4%A2)](https://git.io/typing-svg)
-
-![](https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg)
-
--->
-
-![Most Used Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact)
-<div align="center"> <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&hide_title=true&hide_border=true&layout=compact&langs_count=6&text_color=000&icon_color=fff&bg_color=0,52fa5a,4dfcff,c64dff&theme=graywhite" /> </div>
 
 
-[![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
+<div align="center">
+  
+  ![Most Used Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact)
+  
+  <!--<div align="center"> <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&hide_title=true&hide_border=true&layout=compact&langs_count=6&text_color=000&icon_color=fff&bg_color=0,52fa5a,4dfcff,c64dff&theme=graywhite" /> </div>
 
-![](https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg)
+  [![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
+
+  -->
+  
+  <img src="https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg">
+</div>
 
 
 
+
+<img src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/icon.png" /></div>
+</div>
 
 <!-- ### Hi there is Zihan Wang👋
 
