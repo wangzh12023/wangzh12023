@@ -14,6 +14,11 @@
 
 [![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
 
+![](https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg)
+
+
+
+
 <!-- Snake Code Contribution Map 贪吃蛇代码贡献图 -->
 <!--<picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/wangzh12023/wangzh12023/profile-snake-contrib/github-contribution-grid-snake-dark.svg" />
