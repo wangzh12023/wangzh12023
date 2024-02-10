@@ -6,9 +6,14 @@
 
 ![](https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg)
 
-
-
 -->
+
+![Most Used Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact)
+<div align="center"> <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&hide_title=true&hide_border=true&layout=compact&langs_count=6&text_color=000&icon_color=fff&bg_color=0,52fa5a,4dfcff,c64dff&theme=graywhite" /> </div>
+
+
+[![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
+
 <!-- Snake Code Contribution Map 贪吃蛇代码贡献图 -->
 <!--<picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdelivr.net/gh/wangzh12023/wangzh12023/profile-snake-contrib/github-contribution-grid-snake-dark.svg" />
