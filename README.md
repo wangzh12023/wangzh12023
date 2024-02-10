@@ -43,14 +43,14 @@
 [![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=wangzh12023)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
 
-
-<div align="center">
-
-[![GitHub Streak](https://streak-stats.demolab.com/?user=wangzh12023)](https://git.io/streak-stats)
+<div  align="center" >
+<img src="https://streak-stats.demolab.com/?user=wangzh12023">
+<br><br><br>
+<img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact" >
 </div>
 
 
-<div align="center">
+
 <!--
   [![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
 -->
