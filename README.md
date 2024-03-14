@@ -19,7 +19,7 @@
 
 <img align="right" width="80" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/cxyduck.gif" />
 <ul><li>
-嗨，你好，我是小涵同学😆 
+Here is Han 🌻
 <li><strong>上海科技大学</strong>&emsp;大一  CS 专业在读
 <li>热爱
 <table style="margin-left: 6%; margin-right: auto;"><tr><td> 🌱 编程 </td>
