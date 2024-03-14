@@ -46,7 +46,7 @@ Here is Han 🌻
 <div  align="center" >
 <img src="https://streak-stats.demolab.com/?user=wangzh12023">
 <br><br><br>
-<img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact" >
+<!-- <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact" > -->
 </div>
 
 <!-- [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023)](https://github.com/wangzh12023/github-readme-stats)-->
