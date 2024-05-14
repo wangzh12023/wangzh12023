@@ -68,7 +68,7 @@ Here is Han 🌻
 
 <!-- programming tool icon 编程工具图标 -->
 <h3 align="left">📊正在使用工具</h3>
-<img src="https://skillicons.dev/icons?i=ps,python,html,css,instagram,github,c,cpp,js,vscode" /><br>
+<img src="https://skillicons.dev/icons?i=ps,python,html,css,instagram,github,c,cpp,js,vscode,vue" /><br>
 <h3 align="left">📅正在学习使用工具</h3>
 <img src="https://skillicons.dev/icons?i=pr,vim,docker,go" /><br>
 <br>
