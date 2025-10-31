@@ -11,73 +11,48 @@
 </div>
 <img src="https://raw.githubusercontent.com/wangzh12023/wangzh12023/output/github-contribution-grid-snake.svg">
 
-# 🙋 Hello
-<table>
-<tr><td>
 
-<h3>🤺 About Me </h3>
 
-<img align="right" width="80" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/cxyduck.gif" />
-<ul><li>
-Here is Han 🌻
-<li><strong>上海科技大学</strong>&emsp;大一  CS 专业在读
-<li>热爱
-<table style="margin-left: 6%; margin-right: auto;"><tr><td> 🌱 编程 </td>
-<td>📷 摄影</td>
-<td>🏸 羽毛球</td>
-<td>🏃 跑步 </td>
-</tr>
-</table>
 
-<li>热爱计算机科学和IT互联网事业，希望能成为一名优秀的开发者,目前方向不定。</ul>
 
-<p><strong>&emsp;&emsp;We're making the world a better place. Through constructing elegant hierarchies for maximum code reuse and extensibility.</strong></p>
-</td></tr>
-</table>
-</div>
+
+
+
+# Hi there 👋
+<img align="right" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/cxyduck.gif" />
+
+- 🙋 Hi, I’m Zihan Wang, a junior undergraduate student majoring in Computer Science  at ShanghaiTech University. 
+-  🔭 I’m currently working on **LLM** and **NLP**, focusing on transformer-based reasoning and **Chain-of-Thought(CoT)** research, a direction I'm pursuing under the supervision of Professor [KeWei Tu](https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/).
+- 🌱 I’m currently learning  **CoT reasoning techniques**, Optimization theory, including **numerical optimization** and **convex optimization**. and in the future I want to explore the integration of syntactic/semantic parsing  with modern NLP models.
+- 🤝 Currently, I am working in Professor [Kewei Tu's Lab](https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/) at ShanghaiTech University. 
+- 🤝 Previously, during my sophomore year, I worked in the [VRVC-MARS](https://vic.shanghaitech.edu.cn/vrvc/en/) at ShanghaiTech University, where I briefly engaged in 3D point cloud and mesh processing, dataset construction, YOLO-based visual detection, etc.
+
+- 🧩 I’ve also participated in [GeekPie](https://geekpie.club/),  where I developed small **frontend–backend** projects and explored full-stack skills during my freshman year.
+
+- 💬 I’m currently a Teaching Assistant for *GEMA1001 (Calculus)* at ShanghaiTech. Feel free to ask me questions.
+- 📫 You can reach me at **[wangzh12023@shanghaitech.edu.cn](mailto:wangzh12023@shanghaitech.edu.cn)** or **[3350782760@qq.com](mailto:3350782760@qq.com)**
+-  You can view my photography work on [Xiaohongshu](https://xhslink.com/m/1ymZTTZ8ESQ) or [500px](https://500px.com.cn/Hiberge).
+- ⚡  I’m passionate about **running, badminton, and photography**, and I enjoy combining **mathematical rigor** with **creative expression** in both research and art.
+
+- 🎨 Outside of academics, I enjoy running🏃, badminton🏸, mathematics, and photography📷,  you can find my photo collections on [Xiaohongshu](https://xhslink.com/m/1ymZTTZ8ESQ) or [500px](https://500px.com.cn/Hiberge). 
+
+
 <br>
 <img width="200%" src="./assets/hr.gif" />
 <br>
 <br>
+
+
 
 
 <!-- 
-[![Ashutosh's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=wangzh12023)](https://github.com/ashutosh00710/github-readme-activity-graph)
-<!--
-<div  align="center" >
-<img src="https://streak-stats.demolab.com/?user=wangzh12023">
-<br><br><br>
-<!-- <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact" > -->
-</div>
-
-<!-- [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023)](https://github.com/wangzh12023/github-readme-stats)-->
-
-<!--
-  [![trophy](https://github-profile-trophy.vercel.app/?username=wangzh12023&rank=B&theme=chalk)](https://github.com/ryo-ma/github-profile-trophy)
--->
-
-  <!--
-    ![Most Used Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=wangzh12023&theme=dark&layout=compact)
-  -->
-</div>
-
-
-
 <img width="200%" src="./assets/hr.gif" />
 <div align="center">
-<img src="./assets/man.png" width="200" height="190" />
+<img src="./assets/man.png" width="200" height="190" /> -->
 
-<!-- programming tool icon 编程工具图标 -->
-<h3 align="left">📊正在使用工具</h3>
-<img src="https://skillicons.dev/icons?i=ps,python,html,css,instagram,github,c,cpp,js,vscode,vue" /><br>
-<h3 align="left">📅正在学习使用工具</h3>
-<img src="https://skillicons.dev/icons?i=pr,vim,docker,go" /><br>
-<br>
-<div>
-<h2 style="font-szie: 30px;">Tools</h2>
-</div>
-<br><br>
+
 <!-- svg -->
+<!-- 
 <img src="https://techstack-generator.vercel.app/kubernetes-icon.svg" alt="icon" width="65" style="width: 65px; height: 65px; margin-right: 50px; margin-bottom: 0px;" />
 <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" style="width: 65px; height: 65px; margin-right: 50px; margin-bottom: 0px;" />
 <img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" style="width: 65px; height: 65px; margin-right: 50px; margin-bottom: 0px;" />
@@ -90,7 +65,6 @@ Here is Han 🌻
 <img src="https://techstack-generator.vercel.app/ts-icon.svg" alt="icon" width="65" style="width: 65px; height: 65px; margin-right: 50px; margin-bottom: 0px;" />
 <img src="https://techstack-generator.vercel.app/nginx-icon.svg" alt="icon" width="65" style="width: 65px; height: 65px; margin-right: 50px; margin-bottom: 0px;" /><br>
 <br><br>
-<!-- gif -->
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/html.webp">
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/cssgif.webp">
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/vscode.webp">
@@ -99,29 +73,29 @@ Here is Han 🌻
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/python.webp">
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/js.webp">
 <img height="100" width="100" src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/assets/images/github.webp">
-</div>
+</div> -->
 
 
-
+<!-- ![](./profile-3d-contrib/profile-green-animate.svg) -->
 <!--The end -->
-<br><br><br><br><br>
+
+
+
+
+<br>
+
+
+
+
+[![My Skills](https://skillicons.dev/icons?i=python,c,cpp,html,css,js,ts,vue,react,bash)](https://skillicons.dev)
+
+[![My Skills](https://skillicons.dev/icons?i=pytorch,latex,md,notion,obsidian,vscode,anaconda,matlab,cmake)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=git,github,githubactions,docker,vim,)](https://skillicons.dev)
+
+
+
+[![My Skills](https://skillicons.dev/icons?i=ubuntu,arch,windows)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=ps,blender)](https://skillicons.dev)
+
 <div><img src="./assets/icon.png" /></div>
-
-
-
-
-<!--
-**wangzh12023/wangzh12023** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
 
