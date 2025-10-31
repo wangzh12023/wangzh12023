@@ -32,10 +32,9 @@
 - 🎨 Outside of academics, I enjoy running🏃, badminton🏸, mathematics, and photography📷,  you can find my photo collections on [Xiaohongshu](https://xhslink.com/m/1ymZTTZ8ESQ) or [500px](https://500px.com.cn/Hiberge). 
 
 
-<br>
+
 <img width="200%" src="./assets/hr.gif" />
-<br>
-<br>
+
 
 
 
@@ -76,20 +75,14 @@
 
 
 
-
-<br>
-
-
-
-
 [![My Skills](https://skillicons.dev/icons?i=python,c,cpp,html,css,js,ts,vue,react,bash)](https://skillicons.dev)
 
 [![My Skills](https://skillicons.dev/icons?i=pytorch,latex,md,notion,obsidian,vscode,anaconda,matlab,cmake)](https://skillicons.dev)
+
 [![My Skills](https://skillicons.dev/icons?i=git,github,githubactions,docker,vim,)](https://skillicons.dev)
 
-
-
 [![My Skills](https://skillicons.dev/icons?i=ubuntu,arch,windows)](https://skillicons.dev)
+
 [![My Skills](https://skillicons.dev/icons?i=ps,blender)](https://skillicons.dev)
 
 <div><img src="./assets/icon.png" /></div>
