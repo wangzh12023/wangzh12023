@@ -1,2 +1,2 @@
-// Each preview worktree changes only this default. Content and layout stay identical.
-export const defaultTheme = 'violet';
+// Only this default differs between the color-preview worktrees.
+export const defaultTheme = 'blue';
