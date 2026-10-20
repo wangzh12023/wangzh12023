@@ -7,3 +7,5 @@ sources/
 .env*
 .worktrees/
 *.log
+
+.vite-cache/
