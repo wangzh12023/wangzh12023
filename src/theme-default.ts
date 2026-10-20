@@ -1,2 +1,2 @@
-// Each preview worktree changes only this default. Content and layout stay identical.
-export const defaultTheme = 'violet';
+// Historical color-study archive; active versions are maintained on separate branches.
+export const defaultTheme = 'pink';
