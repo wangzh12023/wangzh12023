@@ -32,7 +32,7 @@ const archiveMedia: Record<string, ArchiveMedia> = {
 const archiveCard = (original: string[]) => {
  const p = localizeSmallProjects([original], getLocale())[0];
  const media = archiveMedia[original[0]];
- return `<article class="contribution archive-card">${media ? `<a class="archive-image-link" href="${escapeHtml(p[2])}" target="_blank" rel="noopener noreferrer"><img class="archive-image" src="/assets/projects/${media.file}" alt="${escapeHtml(media[getLocale()])}" loading="lazy" width="640" height="400"/></a>` : ''}<a class="contribution-title" href="${escapeHtml(p[2])}" target="_blank" rel="noopener noreferrer">${p[0]} ↗</a><span class="tag">${p[3]}</span><p>${p[1]}</p></article>`;
+ return `<a class="contribution archive-card" href="${escapeHtml(p[2])}" target="_blank" rel="noopener noreferrer">${media ? `<img class="archive-image" src="/assets/projects/${media.file}" alt="${escapeHtml(media[getLocale()])}" loading="lazy" width="640" height="400"/>` : ''}<span class="contribution-title">${p[0]} ↗</span><span class="tag">${p[3]}</span><p>${p[1]}</p></a>`;
 };
 
 let observer: IntersectionObserver | undefined;
@@ -84,10 +84,9 @@ function render() {
     <article class="contribution"><a class="contribution-title" href="https://github.com/icip-cas/PPTAgent" target="_blank" rel="noopener noreferrer"><img src="/assets/projects/pptagent-logo.png" alt="" loading="lazy"/>PPTAgent</a><div class="contribution-badges"><span class="badge project">${t('openSourceContributor')}</span>${starBadge('5,133','5.1k')}</div><p>${t('pptContribution')}</p>${external('https://github.com/icip-cas/PPTAgent','GitHub ↗','evidence')}</article>
     <article class="contribution"><a class="contribution-title" href="https://github.com/HeZeBang/TechPie-flutter" target="_blank" rel="noopener noreferrer"><img src="/assets/projects/techpie-logo.png" alt="" loading="lazy"/>TechPie</a><p>${t('pieContribution')}</p>${external('https://github.com/HeZeBang/TechPie-flutter','GitHub ↗','evidence')}</article>
     <article class="contribution"><a class="contribution-title" href="https://github.com/walkinglabs/hands-on-modern-rl" target="_blank" rel="noopener noreferrer">${t('rlName')}</a><figure class="contribution-preview contribution-preview-wordmark"><img src="/assets/projects/hands-on-modern-rl.svg" alt="Hands-On Modern RL" loading="lazy" width="1600" height="440"/></figure><div class="contribution-badges"><span class="badge project">${t('openSourceContributor')}</span>${starBadge('4,724','4.7k')}</div><p>${t('rlContribution')}</p>${external('https://github.com/walkinglabs/hands-on-modern-rl','GitHub ↗','evidence')}</article>
-    <article class="contribution"><span class="contribution-title">MotorMap / Windward</span><span class="badge community">${t('teamCollaboration')}</span><figure class="contribution-preview contribution-preview-portrait"><img src="/assets/projects/motormap-device.png" alt="${getLocale()==='en'?'MotorMap’s native iOS device interface':'MotorMap 原生 iOS 设备界面'}" loading="lazy" width="1206" height="2622"/><figcaption>${getLocale()==='en'?'SwiftUI prototype · Device view':'SwiftUI 原型 · 设备界面'}</figcaption></figure><p>${t('motorContribution')}</p></article>
    </div>
   </section>
-  <section class="section" id="projects"><div class="heading-row"><h2 class="section-heading">${t('projects')}</h2><select class="filter" id="project-filter" aria-label="${t('filterLabel')}"><option value="selected">${t('selectedProjects')}</option><option value="all">${t('allProjects')}</option><option value="ai">${t('aiFilter')}</option><option value="systems">${t('systemsFilter')}</option><option value="vision">${t('visionFilter')}</option><option value="creative">${t('creativeFilter')}</option></select></div><p class="section-note">${t('projectNote')}</p><div class="project-list">${projects.map(workCard).join('')}</div><button id="show-projects" class="archive-toggle">${t('showAll',{count:projects.length})} ${uiIcon('arrow-down')}</button>
+  <section class="section" id="projects"><div class="heading-row"><h2 class="section-heading">${t('projects')}</h2><select class="filter" id="project-filter" aria-label="${t('filterLabel')}"><option value="selected">${t('selectedProjects')}</option><option value="all">${t('allProjects')}</option><option value="ai">${t('aiFilter')}</option><option value="systems">${t('systemsFilter')}</option><option value="vision">${t('visionFilter')}</option><option value="creative">${t('creativeFilter')}</option></select></div><p class="section-note">${t('projectNote')}</p><div class="project-list" id="featured-project-list">${projects.map(workCard).join('')}</div><button id="show-projects" class="archive-toggle" aria-controls="featured-project-list" aria-expanded="false">${t('showAll',{count:projects.length})} ${uiIcon('arrow-down')}</button>
    <details class="more-details" id="project-archive"><summary>${t('archive')}</summary><div class="contribution-grid">${smallProjects.map(archiveCard).join('')}</div></details>
   </section>
   <section class="section" id="teaching"><h2 class="section-heading">${t('teachingCommunity')}</h2>
@@ -123,7 +122,7 @@ function render() {
  const filter=app.querySelector<HTMLSelectElement>('#project-filter')!;
  filter.value=filterValue;
  filter.addEventListener('change',()=>{filterValue=filter.value;filterProjects()});
- app.querySelector('#show-projects')!.addEventListener('click',()=>{filterValue='all';filter.value=filterValue;filterProjects()});
+ app.querySelector('#show-projects')!.addEventListener('click',()=>{const collapse=filterValue==='all';filterValue=collapse?'selected':'all';filter.value=filterValue;filterProjects();if(collapse)document.getElementById('projects')?.scrollIntoView({behavior:'smooth',block:'start'});});
  filterProjects();
  app.querySelectorAll<HTMLButtonElement>('[data-locale]').forEach(button=>button.addEventListener('click',()=>changeLanguage(button.dataset.locale as Locale)));
  const dialog=app.querySelector<HTMLDialogElement>('.project-dialog')!;
@@ -167,7 +166,10 @@ function filterProjects() {
  app.querySelectorAll<HTMLElement>('.project-list .work-card').forEach(card=>{
   card.hidden=filterValue==='selected'?card.dataset.selected!=='true':filterValue==='all'?false:card.dataset.kind!==filterValue;
  });
- app.querySelector<HTMLButtonElement>('#show-projects')!.hidden=filterValue!=='selected';
+ const toggle=app.querySelector<HTMLButtonElement>('#show-projects')!;
+ toggle.hidden=filterValue!=='selected'&&filterValue!=='all';
+ toggle.setAttribute('aria-expanded',String(filterValue==='all'));
+ toggle.innerHTML=filterValue==='all'?`${t('showSelected')} ${uiIcon('arrow-up')}`:`${t('showAll',{count:projects.length})} ${uiIcon('arrow-down')}`;
 }
 function openWork(id:string, restore?:{scroll:number;videoTime?:number;wasPlaying?:boolean}) {
  const original=[...research,...projects].find(item=>item.id===id);if(!original)return;

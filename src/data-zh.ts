@@ -20,6 +20,15 @@ const linkLabels: Record<string, string> = {
 };
 
 const workCopy: Record<string, WorkCopy> = {
+  motormap: {
+    title: 'MotorMap / Windward',
+    subtitle: '围绕地图与设备构建原生 iOS 体验',
+    badge: 'iOS 应用 · 团队项目',
+    meta: 'SwiftUI · MapKit · iOS 26',
+    description: '原生 iOS 界面整合地图、导航与设备视图，采用 iOS 26 Liquid Glass 视觉系统。',
+    tags: ['iOS', 'SwiftUI', 'MapKit', 'Interface Design'],
+    details: `<h3>连接地图与设备视图的原生体验</h3><p>我参与原生 iOS 界面开发，负责 SwiftUI 导航、MapKit 集成与设备界面，在 iOS 26 Liquid Glass 视觉系统下组织地图和设备信息。</p><p>配图为 SwiftUI 原型的设备界面，设备状态使用演示数据。</p>`,
+  },
   mntp: {
     title: 'Masked Next-Token Prediction',
     subtitle: '语言模型中 intermediate computation 的统一框架',
