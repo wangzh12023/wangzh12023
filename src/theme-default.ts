@@ -1,2 +1,2 @@
-// The production branch uses green; theme/violet changes only the presentation tokens.
-export const defaultTheme = 'green';
+// This worktree is the fixed violet presentation of the shared homepage.
+export const defaultTheme = 'violet';
