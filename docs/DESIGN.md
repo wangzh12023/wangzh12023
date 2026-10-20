@@ -23,3 +23,9 @@ The standalone `/cv.html` page uses the branch’s accent with serif headings an
 Sigmar One is locally hosted under the SIL Open Font License, included at `public/assets/fonts/OFL-Sigmar-One.txt`. Body text uses a system sans-serif stack. General interface icons use Lucide; the GitHub mark uses Octicons; Xiaohongshu and Bilibili marks use Simple Icons. Their license texts are retained beside the SVGs. Brand icons retain their recognizable official shapes.
 
 The portrait is supplied by Zihan Wang. Research figures are extracted from supplied materials; project imagery comes from the corresponding repositories or public demos. Photography comes from the author’s verified 500px account. Full asset and organization sources appear in [ASSETS.md](ASSETS.md) and `/credits.html`. The reference authors’ portraits and prose are not reused. Reduced-motion preferences disable decorative motion.
+
+## Personal interests
+
+Photography and Running & Athletics are sibling subsections. The photographer identity is normal body text rather than a low-contrast credit. The athletics presentation takes inspiration from the proportion of interests on [Jon Eisen’s personal site](https://joneisen.me/) and the simple distance–result pairs on [Tanis Bolton’s site](https://tanissmith.com/): one event photograph and result, six compact personal-best cells, and brief campus results and volunteer rows. It does not compete with the research and project sections for prominence. On phones, all three photographs remain available, with the final photograph spanning both columns.
+
+The profile portrait is a transparent photographic cutout with independent crown and thumb accents extracted from the owner-supplied character. The face remains photographic. There is no frame, animated sticker, halo, or colored backdrop; responsive CSS scales the composition and softly fades its shirt edge into the page.
