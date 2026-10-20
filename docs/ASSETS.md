@@ -17,7 +17,7 @@ Project screenshots and demonstration videos are shown to describe their respect
 | OpenSHTU | [Baoyan Wiki](https://openshtu.github.io/Baoyan-Wiki/); screenshot of the student resource. |
 | PPTAgent | [Project](https://github.com/icip-cas/PPTAgent); project logo. MIT code. |
 | TechPie | [Project](https://github.com/HeZeBang/TechPie-flutter); logo used to identify the contributed project. |
-| Hands-on Modern RL | [Curriculum](https://github.com/walkinglabs/hands-on-modern-rl); wordmark. CC BY-NC-SA 4.0. |
+| Hands-on Modern RL | [Curriculum](https://github.com/walkinglabs/hands-on-modern-rl); wordmark. `hands-on-modern-rl-mark.svg` retains the original left two-line wordmark using a cropped viewBox; the right tagline and long baseline are omitted. CC BY-NC-SA 4.0. |
 | Sigmar One | [Google Fonts](https://fonts.google.com/specimen/Sigmar+One); locally hosted, SIL Open Font License 1.1 included beside the font. |
 
 ## Organization images
@@ -64,4 +64,4 @@ The GitHub mark comes from [GitHub Octicons](https://github.com/primer/octicons)
 
 `portrait-cutout.png` uses the existing supplied photograph’s RGB pixels unchanged. A foreground alpha mask was computed locally using Apple Vision’s `VNGenerateForegroundInstanceMaskRequest`; the PNG was composed by adding that alpha channel to the original RGB pixels, with no face generation, retouching, or recoloring. The untouched original `portrait.jpg` remains available in the source assets. CSS gently fades only the bottom of the displayed shirt to avoid a hard rectangular edge.
 
-The crown and left/right thumbs are separately masked pieces of the owner-supplied character artwork. They are displayed as independent decorative layers, hidden from assistive technology, and do not alter the photographic file or cover the face. The supplied character’s paper background was removed before isolating these pieces.
+The full transparent character artwork is displayed beside the name in the header, hidden from assistive technology. Its separately masked crown is used only as the mask for a small CSS gold glint. The photographic portrait has no crown or thumb overlays. The earlier extracted thumb files are retained as source assets but are not rendered.
