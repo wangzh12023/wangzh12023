@@ -1,2 +1,2 @@
-// Each preview worktree changes only this default. Content and layout stay identical.
-export const defaultTheme = 'violet';
+// The production branch uses green; theme/violet changes only the presentation tokens.
+export const defaultTheme = 'green';

@@ -1,7 +1,7 @@
 import type { Work } from './data';
 
 type Locale = 'en' | 'zh';
-type WorkCopy = Pick<Work, 'title' | 'subtitle' | 'badge' | 'meta' | 'description' | 'tags' | 'details'>;
+type WorkCopy = Pick<Work, 'title' | 'subtitle' | 'badge' | 'meta' | 'description' | 'tags' | 'details'> & Partial<Pick<Work, 'galleryHeading' | 'galleryCaptions'>>;
 
 const linkLabels: Record<string, string> = {
   'Research overview': '研究概述',
@@ -21,31 +21,33 @@ const linkLabels: Record<string, string> = {
 
 const workCopy: Record<string, WorkCopy> = {
   mntp: {
-    title: '掩码下一词元预测',
-    subtitle: '语言模型中间计算机制的统一研究框架',
+    title: 'Masked Next-Token Prediction',
+    subtitle: '语言模型中 intermediate computation 的统一框架',
     badge: '第一作者 · 研究工作',
     meta: '屠可伟教授指导 · 上海科技大学 · 2026',
-    description: '围绕下一词元预测前的掩码阶段与潜在计算阶段，构建统一设计空间，连接暂停词元、连续潜在推理与循环 Transformer。',
-    tags: ['语言模型', '中间计算', '模型架构'],
-    details: `<h3>语言模型在给出预测之前，应当如何计算？</h3><p>标准自回归 Transformer 为每次预测分配固定的计算量。这项工作将暂停词元、连续潜在推理、过度词元化与循环 Transformer 引入的额外计算纳入共同的设计空间，系统分析它们之间的联系。</p><p>我围绕中间状态构造、注意力依赖、位置分配、参数共享与计算阶段深度开展受控比较，分析性能变化来自怎样的计算机制，以及增加计算预算所起的作用。</p><h3>从统一设计空间到受控实验</h3><p>实验采用 LLaMA 风格骨干网络，以 5,170 万参数模型为主要设置，并将部分配置扩展至 4.1 亿参数。通过匹配计算预算的基线与消融实验，考察额外计算在什么条件下能够改善预测。</p>`,
+    description: '在 next-token prediction 前引入 intermediate states，以统一的 design space 分析 pause tokens、continuous latent reasoning、over-tokenization 与 looped Transformers。',
+    tags: ['Language Models', 'Intermediate Computation', 'Architecture'],
+    details: `<h3>在 next-token prediction 前，模型应如何组织计算？</h3><p>标准 autoregressive Transformer 通常对每个 token 进行一次 Transformer computation，再预测下一个 token。Masked Next-Token Prediction（MNTP）构建统一的 design space，研究 pause tokens、continuous latent reasoning、over-tokenization 和 looped Transformers 所引入的额外计算。</p><p>我围绕 intermediate-state construction、attention dependencies、position assignment、parameter sharing 和 stage depth 开展 controlled comparisons，区分方法设计本身与单纯增加 compute budget 的影响。</p><h3>从 design space 到 controlled experiments</h3><p>实验采用 LLaMA-style backbone，以 51.7M-parameter models 为主要设置，并将部分配置扩展至 410M parameters。通过 matched-compute baselines 与 ablation studies，考察额外计算在什么条件下能够改善 next-token prediction。</p>`,
   },
   alcot: {
-    title: 'ALCOT：自适应潜在思维链',
-    subtitle: '通过前置路由器与门控 Jacobi 模块实现词元级自适应计算',
+    galleryHeading: 'Related work',
+    galleryCaptions: ['Coconut 与 PCCoT 的整理与重绘，用于对照 sequential 与 parallel latent computation。'],
+    title: 'ALCOT: Adaptive Latent Chain-of-Thought',
+    subtitle: '通过 pre-router gated Jacobi blocks 实现 token-level adaptive computation',
     badge: '第一作者 · 研究工作',
     meta: '屠可伟教授指导 · 上海科技大学 · 2025–2026',
-    description: '由轻量路由器为各个词元分配额外的潜在计算，结合并行 Jacobi 模块与可调节的推理阈值，探索质量与计算开销之间的平衡。',
-    tags: ['自适应计算', '潜在推理', '计算效率'],
-    details: `<h3>把更多思考分配给需要它的词元</h3><p>ALCOT 将潜在计算引入词元级的下一词元预测预训练。轻量前置路由器位于并行 Jacobi 潜在模块之外，决定哪些词元需要进入额外的计算阶段。</p><p>基础路径与潜在路径之间采用软混合，使模型能够在无需词元级难度标注的条件下进行可微训练。结合置信度的路由惩罚与预热策略，引导计算资源分配；推理时可通过阈值调节质量与计算开销之间的取舍，无需重新训练。</p><p>这项工作围绕方法设计与实验方案展开，研究词元级自适应计算的实现方式与表现。</p>`,
+    description: '轻量 pre-router 按 token 决定是否调用额外的 Jacobi latent block；在 inference 时通过 threshold 调节 quality–compute trade-off。',
+    tags: ['Adaptive Computation', 'Latent Reasoning', 'Efficiency'],
+    details: `<h3>按 token 决定是否调用 latent computation</h3><p>ALCOT 在 next-token pretraining 中研究 token-level adaptive computation。轻量 pre-router 位于并行 Jacobi latent block 之外，决定各个 token 是否使用额外计算，同时保留 block 内部固定的并行更新结构。</p><p>Training 采用 soft mixing：每个 token 均计算 base path 和 latent path，再根据 router score 混合两条路径的输出，实现端到端的 differentiable training，无需 token-level difficulty labels。confidence-aware routing penalty 与 warm-up schedule 用于引导 router 和 latent block 的训练。</p><p>Inference 将 router score 通过 threshold 转为 hard decision，仅让选中的 token 进入 Jacobi latent block。调整 threshold 可在无需重新训练的情况下改变 quality–compute trade-off。</p><p>研究内容包括方法设计、training objective 与 experimental protocol。</p>`,
   },
   'probabilistic-transformer': {
-    title: '重新思考注意力归一化',
-    subtitle: '概率 Transformer 的理论分析与结构扩展',
+    title: 'Rethinking Attention Normalization',
+    subtitle: 'Probabilistic Transformers 中的理论分析与结构扩展',
     badge: '第一作者 · 研究工作',
     meta: '屠可伟教授指导 · 上海科技大学 · 2025',
-    description: '从概率语义、结构归纳偏置与实验表现出发，研究基于 sigmoid 的依存头更新与具有竞争性的通道归一化机制。',
-    tags: ['概率模型', '注意力机制', '自然语言处理'],
-    details: `<h3>从概率解释出发理解模型结构</h3><p>我研究了概率 Transformer 中不同的注意力归一化方式，包括基于 sigmoid 的依存头更新，以及沿通道维度进行的 softmax 归一化。</p><p>这项工作分析多通道的加性更新在引入竞争性聚合后如何变化，并将这些结构变化与其概率解释、在自然语言处理任务上的表现联系起来。</p><p>通过理论与实验分析，梳理不同归一化选择的特点与适用条件，为理解和设计模型结构提供依据。</p>`,
+    description: '研究 Probabilistic Transformers 中的 sigmoid-based dependency-head updates 与 head/channel 维度的 softmax normalization，分析其 probabilistic semantics、structural bias 和实验表现。',
+    tags: ['Probabilistic Models', 'Attention', 'NLP'],
+    details: `<h3>Attention normalization 与 probabilistic interpretation</h3><p>Probabilistic Transformers 通过 mean-field inference 组织 Transformer-style computation。我研究其中两类替代 normalization 设计：基于 sigmoid 的 dependency-head updates，以及沿 head/channel 维度进行的 softmax normalization。</p><p>对于后一类设计，我将 multi-channel additive update 扩展为 normalized competitive aggregation，并分析这一改变如何影响模型的 probabilistic interpretation、structural bias 以及在 NLP tasks 上的表现。</p><p>通过理论分析与实验比较，辨析不同 normalization choices 对模型结构和实际表现的影响。</p>`,
   },
   objecttalk: {
     title: 'ObjectTalk：会回应你的世界',
@@ -57,6 +59,8 @@ const workCopy: Record<string, WorkCopy> = {
     details: `<h3>让语言学习成为可以走进去的世界</h3><p>ObjectTalk 将语言练习融入可探索的三维环境。日常物件、情境互动与多人协作，为学习者提供具体而自然的交流内容。</p><p>项目获得上海科技大学黑客松第一名，将交互式 AI、空间界面与协作游戏结合起来。</p><h3>让协作成为开口交流的理由</h3><p>信息差任务让一位玩家掌握目标，另一位玩家负责操作。与朋友或 AI 队友共同完成任务，使口语交流成为解决问题的一部分；场景智能体（Scene Agent）则负责创建并验证新的可玩世界。</p><h3>走进项目原型</h3><p>公开演示包含夜市与咖啡馆等场景，可以进入其中体验基于真实生活情境的协作任务。</p>`,
   },
   rodin: {
+    galleryHeading: 'Rodin 平台',
+    galleryCaptions: ['Rodin 平台作品展示，作为多视图识别合作项目的产品背景。'],
     title: 'Rodin：从设计草图到结构化视图',
     subtitle: '面向三维生成流程的多视图识别',
     badge: '三维视觉 · Rodin',
