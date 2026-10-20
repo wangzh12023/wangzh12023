@@ -1,0 +1,21 @@
+.photography-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}
+.photography-heading .interest-heading{margin-bottom:4px}
+.photography-credit{font-size:.72rem;color:#7d887f;line-height:1.65;margin:0;max-width:460px}
+.portfolio-link{display:inline-flex;align-items:center;gap:7px;flex-shrink:0;font-size:.66rem;color:var(--accent);border:1px solid var(--line);border-radius:99px;padding:6px 11px;background:#ffffff80;transition:background .2s}
+.portfolio-link:hover{background:var(--soft)}.portfolio-link .ui-icon{width:19px;height:19px}
+.photo-mosaic{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;overflow:hidden;border-radius:7px}
+.photo-tile{display:block;overflow:hidden;position:relative;background:var(--soft);min-width:0;outline-offset:-3px}
+.photo-mosaic.is-laid-out{display:block}.is-laid-out .photo-tile{position:absolute}
+.photo-tile img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.photo-tile:hover img{transform:scale(1.025)}
+.photo-caption{position:absolute;inset:auto 0 0;display:flex;justify-content:space-between;gap:8px;padding:24px 10px 9px;font-size:.65rem;color:white;background:linear-gradient(transparent,#142b27a8);opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s}
+.photo-tile:hover .photo-caption,.photo-tile:focus-visible .photo-caption{opacity:1;transform:none}
+.gallery-note{display:flex;justify-content:space-between;gap:12px;margin:10px 0 0;font-size:.6rem;color:#8a918a;letter-spacing:.03em}
+.pswp{--pswp-bg:#15251f;--pswp-icon-color:#eef5ee;--pswp-icon-color-secondary:#15251f;--pswp-icon-stroke-color:#15251f}
+.pswp__photo-info{position:absolute;bottom:0;left:0;right:0;padding:14px 64px 20px;display:flex;align-items:center;justify-content:center;gap:20px;color:#e5ece6;font-size:.78rem;background:linear-gradient(transparent,#15251fe6);pointer-events:none}
+.pswp__photo-info a{pointer-events:auto;color:#b7ccbd;font-size:.68rem;text-decoration:underline;text-underline-offset:3px}.pswp__photo-info a[hidden]{display:none}
+@media(max-width:620px){.photography-heading{align-items:flex-start;gap:12px}.portfolio-link{font-size:.6rem;padding:4px 8px}.photography-credit{font-size:.67rem}.gallery-note{font-size:.56rem}.pswp__photo-info{padding:16px 20px;flex-wrap:wrap;gap:5px 14px}}
+@media(prefers-reduced-motion:reduce){.photo-tile img,.photo-caption{transition:none}.photo-tile:hover img{transform:none}}
+
+.portfolio-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;flex-shrink:0;max-width:230px}
+@media(max-width:620px){.portfolio-links{flex-direction:column;align-items:flex-end;max-width:125px}.portfolio-link .ui-icon{width:17px;height:17px}}

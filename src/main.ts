@@ -1,8 +1,17 @@
 import './styles.css';
 import './i18n.css';
+import './atmosphere.css';
+import './athletics.css';
+import './motion.css';
+import './chips.css';
 import { getLocale, resolveLocale, setLocale, t, type Locale, type TranslationKey } from './i18n';
 import { localizeWork, localizeSmallProjects } from './data-zh';
 import { defaultTheme } from './theme-default';
+import { applyPalette } from './palettes';
+import { medalIcon } from './medal';
+import { photographyMarkup, installPhotography } from './photography';
+import { scrollToSection, installMotion } from './motion';
+import { enhanceSelect } from './select';
 import { research, projects, smallProjects, type Work } from './data';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -13,7 +22,7 @@ const external = (url: string, label: string, cls = '') => `<a href="${escapeHtm
 const starBadge = (count: string, short: string) => `<span class="badge award star-badge" title="${t('upstreamStars',{count})}" aria-label="${t('upstreamStars',{count})}">${uiIcon('star')} ${short} stars</span>`;
 const workCard = (original: Work) => { const w = localizeWork(original, getLocale()); return `<article class="work-card" data-kind="${w.kind}" data-selected="${!!w.selected}">
  <a href="#work/${w.id}" class="work-image-link" aria-label="${escapeHtml(t('readAbout', {title:w.title}))}"><img class="work-image ${w.imageFit || ''}" src="${w.image}" alt="${escapeHtml(w.subtitle)}" width="240" height="160" loading="lazy"/><span class="image-action">${uiIcon(w.video?'play':'arrow-up-right')} ${t(w.video ? 'watchExplore' : 'explore')}</span></a>
- <div class="work-body"><span class="badge ${w.id === 'objecttalk' ? 'award' : w.kind === 'research' ? 'research' : w.kind === 'systems' ? 'tool' : 'project'}">${w.badge}</span>
+ <div class="work-body"><span class="badge ${w.id === 'objecttalk' ? 'rainbow' : w.kind === 'research' ? 'research' : w.kind === 'systems' ? 'tool' : 'project'}">${w.badge}</span>
  <a href="#work/${w.id}" class="work-title">${w.title}</a><p class="work-meta">${w.meta}</p><p class="work-description">${w.description}</p>
  <div class="tags">${w.tags.map((t,i) => `<span class="tag ${t==='Selected' || t==='精选' ? 'rainbow' : `tag-tone-${i%4}`}">#${t}</span>`).join('')}</div>
  <div class="work-links">${w.links.map(l => `<span>${external(l.url,l.label)}</span>`).join('')}</div></div></article>`; };
@@ -36,12 +45,16 @@ const archiveCard = (original: string[]) => {
 };
 
 let observer: IntersectionObserver | undefined;
+let destroyPhotography: (() => void) | undefined;
+let destroySelect: (() => void) | undefined;
 let filterValue = 'selected';
 let lastFocus: HTMLElement | null = null;
 let dialogId: string | null = null;
 const languageSwitcher = () => `<div class="locale-switcher" role="group" aria-label="${t('language')}"><button type="button" data-locale="en" lang="en" aria-label="${t('switchEnglish')}" aria-pressed="${getLocale()==='en'}">EN</button><span aria-hidden="true">/</span><button type="button" data-locale="zh" lang="zh-CN" aria-label="${t('switchChinese')}" aria-pressed="${getLocale()==='zh'}">中</button></div>`;
 function render() {
  observer?.disconnect();
+ destroySelect?.();
+ destroyPhotography?.();
  document.documentElement.lang = getLocale() === 'zh' ? 'zh-CN' : 'en';
  document.title = t('pageTitle');
  document.querySelector('meta[name="description"]')?.setAttribute('content',t('pageDescription'));
@@ -49,6 +62,7 @@ function render() {
  document.querySelector('meta[property="og:description"]')?.setAttribute('content',t('ogDescription'));
  app.innerHTML = `
 <a class="skip-link" href="#main">${t('skip')}</a>
+<div class="ambient-backdrop" aria-hidden="true"><span class="ambient-cloud"></span><span class="ambient-cloud"></span><span class="ambient-cloud"></span></div>
 <header class="site-header"><div class="header-inner">
  <a class="brand" href="#about" aria-label="${t('home')}"><span class="brand-emote" aria-hidden="true"><img src="/favicon.png?v=2" alt="" width="38" height="38"/></span><span>${t('name')}</span></a>
  <div class="header-tools">${languageSwitcher()}<button class="menu-toggle" type="button" aria-label="${t('openNav')}" aria-controls="navigation" aria-expanded="false">${uiIcon('menu')}</button></div>
@@ -56,25 +70,25 @@ function render() {
 </div></header>
 <div class="layout">
  <aside class="profile" aria-label="${t('profileLabel')}">
-  <div class="avatar-scene"><img class="portrait" src="/assets/portrait-cutout.png" alt="${t('portraitAlt')}" width="950" height="1320" fetchpriority="high"/></div>
+  <div class="avatar-scene"><img class="portrait" src="/assets/portrait-repaired.png" alt="${t('portraitAlt')}" width="1320" height="1320" fetchpriority="high"/></div>
   <h1>${getLocale()==='en'?'Zihan Wang <span lang="zh-CN">王子涵</span>':'王子涵 <span lang="en">Zihan Wang</span>'}</h1><p class="profile-role">${t('profileRole')}</p>
   <div class="profile-description"><span>${uiIcon('cpu')} ${t('profileResearch')}</span><span>${uiIcon('code-xml')} ${t('profileBuilder')}</span><span>${uiIcon('camera')} ${t('profilePhoto')}</span></div>
   <div class="profile-actions"><a class="profile-action" href="#projects">${t('projects')}</a><a class="profile-action" href="/cv.html?lang=${getLocale()}" target="_blank" rel="noopener">${t('cv')}</a></div>
-  <div class="profile-contacts"><a href="mailto:wangzh12023@shanghaitech.edu.cn">${uiIcon('mail')}<span>wangzh12023@shanghaitech.edu.cn</span></a><a href="mailto:zhiycc1221@gmail.com">${uiIcon('mail')}<span>zhiycc1221@gmail.com</span></a></div>
-  <div class="social-links">${external('https://github.com/wangzh12023',uiIcon('github'),'social-github')}${external('https://wangzh12023.github.io/blog/',uiIcon('pen-line'),'social-writing')}${external('https://500px.com.cn/p/Lull1221',uiIcon('camera'),'social-camera')}${external('https://github.com/OpenSHTU',uiIcon('graduation-cap'),'social-openshtu')}${external('https://space.bilibili.com/455440626',uiIcon('bilibili'),'social-bilibili')}${external('https://www.xiaohongshu.com/user/profile/6503dab30000000016039f95',uiIcon('xiaohongshu'),'social-red')}</div>
+  <div class="profile-contacts"><a href="mailto:wangzh12023@shanghaitech.edu.cn">${uiIcon('mail')}<span>wangzh12023@shanghaitech.edu.cn</span></a><a href="mailto:3350782760@qq.com">${uiIcon('mail')}<span>3350782760@qq.com</span></a></div>
+  <div class="social-links">${external('https://github.com/wangzh12023',uiIcon('github'),'social-github')}${external('https://wangzh12023.github.io/blog/',uiIcon('pen-line'),'social-writing')}${external('https://500px.com.cn/p/Lull1221',uiIcon('500px'),'social-500px')}${external('mailto:zhiycc1212@gmail.com',uiIcon('gmail'),'social-gmail')}${external('https://www.douyin.com/user/MS4wLjABAAAAixCuH8OZYnIc7Hzd4cFY0CtaelblcTthHDaiJ_zZw48?from_tab_name=main&vid=7693459610825197035',uiIcon('douyin'),'social-douyin')}${external('https://space.bilibili.com/455440626',uiIcon('bilibili'),'social-bilibili')}${external('https://www.xiaohongshu.com/user/profile/6503dab30000000016039f95',uiIcon('xiaohongshu'),'social-red')}</div>
   <span class="updated">${t('updated')}</span>
  </aside>
  <main class="content" id="main">
   <section class="intro" id="about" aria-label="${t('aboutLabel')}">
-   <p>${t('introFirst',{school:external('https://www.shanghaitech.edu.cn/eng/',t('school')),ailab:external('https://www.shlab.org.cn/',t('ailab')),icip:external('https://www.icip.org.cn/',t('icip')),iscas:external('https://www.iscas.ac.cn/',t('iscas')),sun:external('https://www.icip.org.cn/team/sunle/',t('sun')),lu:external('https://yaojie.lu/',t('lu')),kewei:external('https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/',t('kewei'))})}</p>
-   <p>${t('introSecond',{school:external('https://www.shanghaitech.edu.cn/eng/',t('school')),ailab:external('https://www.shlab.org.cn/',t('ailab')),icip:external('https://www.icip.org.cn/',t('icip')),iscas:external('https://www.iscas.ac.cn/',t('iscas')),sun:external('https://www.icip.org.cn/team/sunle/',t('sun')),lu:external('https://yaojie.lu/',t('lu')),kewei:external('https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/',t('kewei'))})}</p>
+   <p>${t('introFirst',{school:external(getLocale()==='en'?'https://www.shanghaitech.edu.cn/en/':'https://www.shanghaitech.edu.cn/',t('school')),ailab:external('https://www.shlab.org.cn/',t('ailab')),icip:external('https://www.icip.org.cn/',t('icip')),iscas:external('https://is.cas.cn/',t('iscas')),sun:external('https://people.ucas.ac.cn/~0000105',t('sun')),lu:external('https://yaojie.lu/',t('lu')),kewei:external('https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/',t('kewei'))})}</p>
+   <p>${t('introSecond',{school:external(getLocale()==='en'?'https://www.shanghaitech.edu.cn/en/':'https://www.shanghaitech.edu.cn/',t('school')),ailab:external('https://www.shlab.org.cn/',t('ailab')),icip:external('https://www.icip.org.cn/',t('icip')),iscas:external('https://is.cas.cn/',t('iscas')),sun:external('https://people.ucas.ac.cn/~0000105',t('sun')),lu:external('https://yaojie.lu/',t('lu')),kewei:external('https://faculty.sist.shanghaitech.edu.cn/faculty/tukw/',t('kewei'))})}</p>
    <div class="callout">${t('callout',{contact:external('mailto:wangzh12023@shanghaitech.edu.cn',t('getInTouch'))})}</div>
   </section>
   <section class="section" id="news"><h2 class="section-heading">${t('news')}</h2>
    <ul class="news-list">
-    <li><time class="news-time" datetime="2026-10-23">2026.10</time><span><span class="badge community">${t('upcoming')}</span> ${t('newsTalk')}</span></li>
-    <li><time class="news-time" datetime="2026-09-20">2026.09</time><span>${t('newsPpt',{link:external('https://github.com/icip-cas/PPTAgent',t('pptWorkflow'))})}</span></li>
+    <li><time class="news-time" datetime="2026-10-23">2026.10</time><span><span class="badge upcoming">${t('upcoming')}</span> ${t('newsTalk')}</span></li>
     <li><time class="news-time" datetime="2026">2026</time><span>${t('newsObject',{award:uiIcon('trophy'),demo:external('https://objecttalk-demo.vercel.app/',t('tryDemo'))})}</span></li>
+    <li><time class="news-time" datetime="2026-09-20">2026.09</time><span>${t('newsPpt',{link:external('https://github.com/icip-cas/PPTAgent',t('pptWorkflow'))})}</span></li>
     <li><time class="news-time" datetime="2026">2026</time><span>${t('newsResearch')}</span></li>
    </ul>
   </section>
@@ -91,50 +105,65 @@ function render() {
   </section>
   <section class="section" id="teaching"><h2 class="section-heading">${t('teachingCommunity')}</h2>
    <p style="font-size:.82rem;margin:6px 0">${t('teachingIntro')}</p>
-   <ul class="teaching-list"><li><span class="teaching-visual teaching-statistics">${uiIcon('chart-no-axes-combined')}</span><div class="teaching-course"><h3>${t('probabilityCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('spring2026')}</span></li><li><span class="teaching-visual teaching-calculus">${uiIcon('sigma')}</span><div class="teaching-course"><h3>${t('calculusCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('fall2025')}</span></li></ul>
+   <ul class="teaching-list"><li><div class="teaching-course"><h3>${t('probabilityCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('spring2026')}</span></li><li><div class="teaching-course"><h3>${t('calculusCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('fall2025')}</span></li></ul>
    <div class="work-card" style="border-bottom:1px dashed #bbb"><a href="https://openshtu.github.io/Baoyan-Wiki/" target="_blank" rel="noopener noreferrer" class="work-image-link"><img src="/assets/projects/baoyan-wiki.png" alt="${t('wikiAlt')}" class="work-image" width="240" height="160" loading="lazy"/></a><div class="work-body"><span class="badge community">${t('openEducation')}</span><a class="work-title" href="https://github.com/OpenSHTU" target="_blank" rel="noopener noreferrer">${t('openShtuTitle')}</a><p class="work-description">${t('openShtuCopy')}</p><div class="work-links"><span>${external('https://openshtu.github.io/Baoyan-Wiki/',t('baoyanWiki'))}</span><span>${external('https://github.com/OpenSHTU',t('organization'))}</span></div></div></div>
-   <div class="community-links">${external('https://github.com/OpenSHTU/AI-Wiki',t('aiWiki'))}${external('https://github.com/OpenSHTU',t('schoolResources'))}${external('https://github.com/wangzh12023/baoyan-resume-template',t('resumeTemplate'))}${external('https://github.com/wangzh12023/baoyan-poster-template',t('posterToolkit'))}</div>
-   <article class="talk"><a href="/assets/research/sharing-poster.webp" target="_blank" rel="noopener"><img src="/assets/research/sharing-poster.webp" alt="${t('posterAlt')}" loading="lazy"/></a><div><span class="badge community" id="talk-status">${t('talkUpcoming')}</span><h3 style="font-size:.9rem;margin-top:5px">${t('talkTitle')}</h3><p>${t('talkCopy')}</p><small style="color:#888">18:30–18:55 · SIST 1A-200</small></div></article>
+   <div class="community-links">${external('https://github.com/OpenSHTU/AI-Wiki',t('aiWiki'),'chip-color chip-flat chip-lilac')}${external('https://github.com/OpenSHTU',t('schoolResources'),'chip-color chip-flat chip-sky')}${external('https://github.com/wangzh12023/baoyan-resume-template',t('resumeTemplate'),'chip-color chip-flat chip-rose')}${external('https://github.com/wangzh12023/baoyan-poster-template',t('posterToolkit'),'chip-color chip-flat chip-peach')}</div>
+   <article class="talk"><a href="/assets/research/sharing-poster.webp" target="_blank" rel="noopener"><img src="/assets/research/sharing-poster.webp" alt="${t('posterAlt')}" loading="lazy"/></a><div><span class="badge upcoming" id="talk-status">${t('talkUpcoming')}</span><h3 style="font-size:.9rem;margin-top:5px">${t('talkTitle')}</h3><p>${t('talkCopy')}</p><small style="color:#888">18:30–18:55 · SIST 1A-200</small></div></article>
   </section>
   <section class="section" id="experience"><h2 class="section-heading">${t('experience')}</h2><div class="timeline">
+   <article class="timeline-item"><span class="timeline-date">2026<br>– ${t('present')}</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-wide organization-dark" href="https://www.shlab.org.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/shanghai-ai-lab.webp" alt="" loading="lazy"/></a><div><h3 class="experience-title">${external('https://www.shlab.org.cn/',t('ailab'))}</h3><span class="experience-sub">${t('aiLabRole')}</span></div></div><span class="badge tool">${t('internship')}</span></div><p>${t('aiLabCopy')}</p></div></article>
+   <article class="timeline-item"><span class="timeline-date">${t('mid2026')}</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-starteam" href="https://ustc-starteam.github.io/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/ustc-starteam.png" alt="" loading="lazy"/></a><div><h3 class="experience-title">${external('https://ustc-starteam.github.io/',t('starTeam'))}</h3><span class="experience-sub">${t('starRole')}</span><span class="experience-affiliation">${t('starAffiliation')}<br>${t('starLaboratory')}</span></div></div><span class="badge research">${t('research')}</span></div><p>${t('starCopy')}</p></div></article>
    <article class="timeline-item"><span class="timeline-date">2025<br>– 2026</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-vdi" href="https://sist.shanghaitech.edu.cn/2026/0522/c2858a1122866/page.htm" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/vdi-logo.jpg" alt="${t('vdi')}" loading="lazy"/></a><div><h3 class="experience-title">${external('https://sist.shanghaitech.edu.cn/2026/0522/c2858a1122866/page.htm',t('vdi'))}</h3><span class="experience-sub">${t('lmRole')}</span><span class="experience-affiliation">${t('school')}</span></div></div><span class="badge research">${t('research')}</span></div><ul><li>${t('expMntp')}</li><li>${t('expAlcot')}</li><li>${t('expPt')}</li></ul></div></article>
-   <article class="timeline-item"><span class="timeline-date">2024</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-lab" href="https://ieeevr.org/2023/program/social-events/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/mars-lab-tour.png" alt="" loading="lazy"/></a><div><h3 class="experience-title">VRVC-MARS Lab</h3><span class="experience-sub">${t('visionRole')}</span></div></div><span class="badge project">${t('research')}</span></div><ul><li>${t('expPoint')}</li></ul><details class="more-details" id="point-sam-details"><summary>${t('closerLook')}</summary><a href="/assets/research/point-sam-data.webp" target="_blank" rel="noopener"><img class="experience-figure" src="/assets/research/point-sam-data.webp" alt="${t('expPoint')}" loading="lazy"/></a></details></div></article>
    <article class="timeline-item"><span class="timeline-date">2024</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-dark" href="https://hyper3d.ai/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/hyper3d-logo.png" alt="" loading="lazy"/></a><div><h3 class="experience-title">${external('https://hyper3d.ai/',t('deemos'))}</h3><span class="experience-sub">${t('rodinRole')}</span></div></div><span class="badge project">${t('projectCollaboration')}</span></div><p>${t('expRodin')}</p><a class="experience-link" href="https://hyper3d.ai/" target="_blank" rel="noopener noreferrer">${t('rodinPlatform')}</a></div></article>
+   <article class="timeline-item"><span class="timeline-date">2024</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-lab" href="https://ieeevr.org/2023/program/social-events/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/mars-lab-tour.png" alt="" loading="lazy"/></a><div><h3 class="experience-title">VRVC-MARS Lab</h3><span class="experience-sub">${t('visionRole')}</span></div></div><span class="badge project">${t('research')}</span></div><ul><li>${t('expPoint')}</li></ul></div></article>
+   <article class="timeline-item"><span class="timeline-date">2024</span><div class="experience-card"><div class="experience-header"><div class="org-name"><div class="organization-image organization-wide"><img src="/assets/organizations/metax-logo.svg" alt="" loading="lazy"/></div><div><h3 class="experience-title">${t('metax')}</h3><span class="experience-sub">${t('metaxRole')}</span></div></div><span class="badge tool">${t('technicalPractice')}</span></div><ul><li>${t('expMetaxProgramming')}</li><li>${t('expMetaxOptimization')}</li></ul></div></article>
    <article class="timeline-item"><span class="timeline-date">2023<br>– 2024</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-dark" href="https://geekpie.club/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/geekpie-icon.png" alt="" loading="lazy"/></a><div><h3 class="experience-title">${t('geekpie')}</h3><span class="experience-sub">${t('geekRole')}</span></div></div><span class="badge community">${t('community')}</span></div><p>${t('geekCopy')}</p></div></article>
   </div></section>
-  <section class="section" id="education"><h2 class="section-heading">${t('education')}</h2><article class="education-card education-incoming"><div class="education-head"><a class="education-institution" href="https://www.iscas.ac.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/iscas-logo.png" alt="${t('phdInstitution')}" width="310" height="36" loading="lazy"/></a><div class="education-period">${t('phdPeriod')}<span>${t('phdStatus')}</span></div></div><h3 class="education-degree">${t('phdDegree')}</h3><p class="education-lab">${external('https://www.icip.org.cn/',t('phdLaboratory'))}</p><p class="education-university">${external('https://www.ucas.ac.cn/',t('phdUniversity'))}</p></article><div class="education-card"><div class="education-head"><a class="education-brand" href="https://www.shanghaitech.edu.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/university-logo.svg" alt="${t('school')}" width="190" height="40" loading="lazy"/></a><div class="education-period">2023 — 2027<span>${t('expectedGraduation')}</span></div></div><h3 class="education-degree">${t('degree')}</h3><div class="education-metrics"><div><span class="metric-label">${t('gpa')}</span><strong>3.80<small> / 4.00</small></strong></div><div><span class="metric-label">${t('majorRank')}</span><strong>15<small> / 171</small></strong></div></div><div class="study-focus"><span>NLP</span><span>Machine Learning</span><span>Artificial Intelligence</span><span>Optimization</span></div></div></section>
+  <section class="section" id="education"><h2 class="section-heading">${t('education')}</h2><div class="timeline education-timeline"><div class="timeline-item education-entry education-entry-incoming"><span class="timeline-date">2027</span><article class="education-card education-incoming"><div class="education-head"><a class="education-institution" href="https://is.cas.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/iscas-logo.png" alt="${t('phdInstitution')}" width="310" height="36" loading="lazy"/></a><div class="education-period">${t('phdStatus')}</div></div><h3 class="education-degree">${t('phdDegree')}</h3><p class="education-lab">${external('https://www.icip.org.cn/',t('phdLaboratory'))}</p><p class="education-university">${external('https://www.ucas.ac.cn/',t('phdUniversity'))}</p></article></div><div class="timeline-item education-entry"><span class="timeline-date">2023<br>– 2027</span><div class="education-card"><div class="education-head"><a class="education-brand" href="https://www.shanghaitech.edu.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/university-logo.svg" alt="${t('school')}" width="190" height="40" loading="lazy"/></a><div class="education-period"><span>${t('expectedGraduation')} · 2027</span></div></div><h3 class="education-degree">${t('degree')}</h3><div class="education-metrics"><div><span class="metric-label">${t('gpa')}</span><strong>3.80<small> / 4.00</small></strong></div><div><span class="metric-label">${t('majorRank')}</span><strong>15<small> / 171</small></strong></div></div><div class="study-focus"><span>NLP</span><span>Machine Learning</span><span>Artificial Intelligence</span><span>Optimization</span></div></div></div></div></section>
   <section class="section" id="awards"><h2 class="section-heading">${t('honors')}</h2><ul class="award-list"><li><span class="award-icon">${uiIcon('trophy')}</span><span><strong>${t('firstPlace')}</strong> · ${t('hackathonAward')}</span><span class="award-year">2026</span></li><li><span class="award-icon">${uiIcon('badge-check')}</span><span><b>${t('outstandingStudent')}</b> · ${t('school')}</span><span class="award-year">2023–2024</span></li></ul></section>
-  <section class="section" id="more"><h2 class="section-heading">${t('moreAbout')}</h2><div class="more-copy"><p>${t('beyondCopy')}</p><p>${t('socialCopy',{photo:external('https://500px.com.cn/p/Lull1221',t('photographyName')),red:external('https://www.xiaohongshu.com/user/profile/6503dab30000000016039f95',t('xiaohongshu')),bili:external('https://space.bilibili.com/455440626',t('bilibili'))})}</p></div><div class="interest-section" id="photography"><h3 class="interest-heading">${t('photographyHeading')}</h3><p class="photography-credit">${t('photographerCredit')}</p><div class="photo-grid">${([
- ['shanghai-bund.jpg','photoBund','photoBundAlt'],['campus-autumn.jpg','photoCampus','photoCampusAlt'],['mountain-mist.jpg','photoMountain','photoMountainAlt']
- ] as const).map(([file,caption,alt])=>`<figure><a href="https://500px.com.cn/p/Lull1221" target="_blank" rel="noopener noreferrer"><img src="/assets/photography/${file}" alt="${t(alt)}" loading="lazy" width="600" height="450"/></a><figcaption>${t(caption)}</figcaption></figure>`).join('')}</div></div>
+  <section class="section" id="more"><h2 class="section-heading">${t('moreAbout')}</h2><div class="more-copy"><p>${t('beyondCopy')}</p><p>${t('socialCopy',{photo:external('https://500px.com.cn/p/Lull1221',t('photographyName')),red:external('https://www.xiaohongshu.com/user/profile/6503dab30000000016039f95',t('xiaohongshu')),bili:external('https://space.bilibili.com/455440626',t('bilibili'))})}</p></div><div class="interest-section" id="photography">${photographyMarkup()}</div>
    <div class="interest-section activities" id="running" aria-labelledby="running-heading">
     <h3 class="interest-heading" id="running-heading">${t('runningHeading')}</h3>
-    <article class="race-card" aria-label="${t('changjiangHalfMarathon')}">
-     <figure class="race-image"><a href="https://www.shcm.gov.cn/xwzx/002003/20260319/6e78a62e-9d70-460a-8608-10250399aaf5.html" target="_blank" rel="noopener noreferrer"><img src="/assets/running/changjiang-half-2025.jpg" alt="${t('racePhotoAlt')}" width="1080" height="720" loading="lazy"/></a><figcaption>${t('racePhotoCredit')}</figcaption></figure>
-     <div class="race-result"><span class="activity-eyebrow">2025 · 21.0975 km</span><div class="race-time">1:43:17</div><h4>${t('changjiangHalfMarathon')}</h4><p>${t('raceLocation')}</p></div>
-    </article>
-    <div class="pb-heading"><h4>${t('personalBests')}</h4><span>${t('trackField')}</span></div>
-    <dl class="personal-bests">${[
-      ['400 m','1:00',''],['800 m','2:15',''],['1,000 m','3:05',''],['1,500 m','5:10',''],['5,000 m','21:10',''],[t('highJump'),'1.55','m'],
-    ].map(([distance,value,unit])=>`<div class="pb-record"><dt>${distance}</dt><dd>${value}${unit?`<span class="pb-unit"> ${unit}</span>`:''}</dd></div>`).join('')}</dl>
-    <div class="campus-results"><span class="campus-results-label">${t('sportsMeet')} · 2025</span><span class="campus-medal"><span class="medal-mark silver">${uiIcon('medal')}</span>400 m <b>${t('silverMedal')}</b></span><span class="campus-medal"><span class="medal-mark gold">${uiIcon('medal')}</span>4 × 100 m <b>${t('goldMedal')}</b></span></div>
+    <div class="pb-heading"><h4>${t('personalBests')}</h4></div>
+    <div class="track-records">
+     <article class="track-record"><div class="track-mark" aria-hidden="true"></div><h5>400 <span>m</span></h5><div class="pb-time">1:00</div>
+      <div class="record-memory"><a class="record-photo" href="/assets/running/shanghaitech-400m-silver.webp" data-pswp-width="1280" data-pswp-height="960" data-caption="${t('sportsMeet')} · 400 m · 2025" aria-label="${t('campus400Alt')}" target="_blank" rel="noopener"><img src="/assets/running/shanghaitech-400m-silver-320.webp" alt="${t('campus400Alt')}" width="1280" height="960" loading="lazy"/></a>
+      <div class="record-award">${medalIcon('silver')}<span><b>400 m · ${t('silverMedal')}</b><small>${t('sportsMeet')} · 2025</small></span></div></div>
+     </article>
+     <article class="track-record"><div class="track-mark" aria-hidden="true"></div><h5>800 <span>m</span></h5><div class="pb-time">2:20</div></article>
+     <article class="track-record"><div class="track-mark" aria-hidden="true"></div><h5>1,000 <span>m</span></h5><div class="pb-time">3:05</div></article>
+     <article class="track-record"><div class="track-mark" aria-hidden="true"></div><h5>1,500 <span>m</span></h5><div class="pb-time">5:10</div>
+      <div class="record-memory"><a class="record-photo" href="/assets/running/school-1500m.webp" data-pswp-width="1280" data-pswp-height="919" data-caption="${t('schoolMeet')} · 1,500 m" aria-label="${t('school1500Alt')}" target="_blank" rel="noopener"><img src="/assets/running/school-1500m-320.webp" alt="${t('school1500Alt')}" width="1280" height="919" loading="lazy"/></a>
+      <div class="record-award">${medalIcon('gold')}<span><b>1,500 m · ${t('goldMedal')}</b><small>${t('schoolMeet')}</small></span></div></div>
+     </article>
+     <article class="track-record track-record-half"><div class="track-mark" aria-hidden="true"></div><h5>21.1 <span>km</span></h5><div class="pb-time">1:43:17</div><a class="record-photo record-event-logo" href="/assets/running/changjiang-half-2025-banner.webp" data-pswp-width="694" data-pswp-height="290" data-caption="${t('changjiangHalfMarathon')} · 2025" aria-label="${t('racePhotoAlt')}" target="_blank" rel="noopener noreferrer"><img src="/assets/running/changjiang-half-2025-banner-320.webp" alt="${t('racePhotoAlt')}" width="694" height="290" loading="lazy"/></a><div class="track-event"><b>${t('changjiangHalfMarathon')}</b><span>${t('raceLocation')} · 2025</span></div></article>
+    </div>
     <div class="volunteer-card"><div class="volunteer-heading">${uiIcon('heart-handshake')}<h4>${t('volunteerService')}</h4></div><div class="volunteer-event"><span>2023</span><b>${t('shanghaiMarathon')}</b></div><div class="volunteer-event"><span>2026</span><b>${t('halfMarathon')}</b></div></div>
    </div>
   </section>
  </main>
 </div>
-<footer class="site-footer"><span>© ${new Date().getFullYear()} ${getLocale()==='en'?'Zihan Wang · 王子涵':'王子涵 · Zihan Wang'}</span><span>${t('footer',{credits:external('/credits.html?lang='+getLocale(),t('credits'))})}</span></footer>
+<footer class="site-footer"><span>© ${new Date().getFullYear()} ${getLocale()==='en'?'Zihan Wang · 王子涵':'王子涵 · Zihan Wang'}</span></footer>
 <button class="back-top" aria-label="${t('backTop')}" title="${t('backTop')}">${uiIcon('arrow-up')}</button>
 <dialog class="project-dialog" aria-label="${t('projectDetails')}"><div class="dialog-language">${languageSwitcher()}</div><button class="dialog-close" aria-label="${t('closeProject')}">${uiIcon('x')}</button><div class="dialog-inner"></div></dialog>`;
- const labels: Record<string, TranslationKey> = {'.social-github':'socialGithub','.social-camera':'socialCamera','.social-bilibili':'socialBilibili','.social-red':'socialRed','.social-writing':'socialWriting','.social-openshtu':'socialOpenShtu'};
+ const labels: Record<string, TranslationKey> = {'.social-github':'socialGithub','.social-500px':'socialCamera','.social-bilibili':'socialBilibili','.social-red':'socialRed','.social-writing':'socialWriting','.social-gmail':'socialGmail','.social-douyin':'socialDouyin'};
  for (const [selector,key] of Object.entries(labels)){const link=app.querySelector(selector);link?.setAttribute('aria-label',t(key));link?.setAttribute('title',t(key));}
  setTheme();
  app.querySelector<HTMLButtonElement>('.menu-toggle')!.addEventListener('click',()=>setMenu(!app.querySelector('.nav')!.classList.contains('open')));
- app.querySelectorAll<HTMLAnchorElement>('.nav a').forEach(link=>link.addEventListener('click',()=>setMenu(false)));
+ app.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.skip-link)').forEach(link=>link.addEventListener('click',event=>{
+  const id=link.hash.slice(1);
+  const section=document.getElementById(id);
+  if(!section || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button!==0)return;
+  event.preventDefault();
+  setMenu(false);
+  if(location.hash!==link.hash)history.pushState(null,'',link.hash);
+  scrollToSection(section);
+ }));
  const filter=app.querySelector<HTMLSelectElement>('#project-filter')!;
  filter.value=filterValue;
  filter.addEventListener('change',()=>{filterValue=filter.value;filterProjects()});
- app.querySelector('#show-projects')!.addEventListener('click',()=>{const collapse=filterValue==='all';filterValue=collapse?'selected':'all';filter.value=filterValue;filterProjects();if(collapse)document.getElementById('projects')?.scrollIntoView({behavior:'smooth',block:'start'});});
+ destroySelect=enhanceSelect(filter);
+ app.querySelector('#show-projects')!.addEventListener('click',()=>{const collapse=filterValue==='all';filterValue=collapse?'selected':'all';filter.value=filterValue;filter.dispatchEvent(new Event('change',{bubbles:true}));if(collapse)scrollToSection(document.getElementById('projects')!);});
  filterProjects();
  app.querySelectorAll<HTMLButtonElement>('[data-locale]').forEach(button=>button.addEventListener('click',()=>changeLanguage(button.dataset.locale as Locale)));
  const dialog=app.querySelector<HTMLDialogElement>('.project-dialog')!;
@@ -150,7 +179,7 @@ function render() {
   if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});
  });
  app.querySelector('.back-top')!.addEventListener('click',()=>{
-  window.scrollTo({top:0,behavior:'smooth'});
+  scrollToSection(document.getElementById('about')!,true);
   history.replaceState(null,'',location.pathname+location.search+'#about');
  });
  observer=new IntersectionObserver(entries=>{
@@ -162,10 +191,13 @@ function render() {
   const section=document.getElementById(link.hash.slice(1));if(section)observer!.observe(section);
  });
  updateTopButton();
+ installMotion(app);
+ destroyPhotography=installPhotography(app);
 }
 
 function setTheme() {
  document.documentElement.dataset.theme=defaultTheme;
+ if(defaultTheme==='green'){applyPalette();return;}
  const colours:Record<string,string>={green:'#f2f8f3',violet:'#faf9f6'};
  document.querySelector('meta[name="theme-color"]')?.setAttribute('content',colours[defaultTheme]);
 }
@@ -239,6 +271,7 @@ function updateTopButton(){app.querySelector('.back-top')?.classList.toggle('vis
 window.addEventListener('scroll',updateTopButton,{passive:true});
 window.addEventListener('hashchange',route);
 window.addEventListener('popstate',()=>{
+ setTheme();
  const next=resolveLocale();
  if(next!==getLocale())changeLanguage(next,false);
  route();

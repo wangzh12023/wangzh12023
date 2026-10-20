@@ -9,5 +9,13 @@
     "preview": "vite preview --host 0.0.0.0",
     "check": "tsc --noEmit"
   },
-  "devDependencies": { "typescript": "~5.9.3", "vite": "^7.1.0" }
+  "devDependencies": {
+    "@types/justified-layout": "^4.1.4",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.0"
+  },
+  "dependencies": {
+    "justified-layout": "^4.1.0",
+    "photoswipe": "^5.4.4"
+  }
 }

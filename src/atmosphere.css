@@ -1,0 +1,108 @@
+/* One continuous fixed atmosphere, shared by the profile and the clear header. */
+:root[data-theme='green'] {
+ --glow-a: #bddfd0;
+ --glow-b: #cce6df;
+ --glow-c: #e3ead2;
+}
+body { isolation: isolate; }
+.ambient-backdrop {
+ position: fixed;
+ inset: 0;
+ z-index: -1;
+ pointer-events: none;
+ overflow: hidden;
+}
+/* Separate soft ink pools, rather than a full-width wash. Each fades on its own. */
+.ambient-cloud {
+ position: absolute;
+ display: block;
+ background: radial-gradient(ellipse at 43% 43%,
+  color-mix(in srgb, var(--cloud-color) 70%, transparent) 0%,
+  color-mix(in srgb, var(--cloud-color) 38%, transparent) 28%,
+  color-mix(in srgb, var(--cloud-color) 10%, transparent) 51%,
+  transparent 72%);
+ filter: blur(32px);
+}
+.ambient-cloud:nth-child(1) {
+ --cloud-color: var(--glow-a);
+ width: min(70vw, 920px);
+ height: 620px;
+ left: -170px;
+ top: -180px;
+ transform: rotate(-24deg);
+}
+.ambient-cloud:nth-child(2) {
+ --cloud-color: var(--glow-c);
+ width: min(53vw, 760px);
+ height: 410px;
+ left: 32%;
+ top: -230px;
+ transform: rotate(18deg);
+ opacity: .7;
+}
+.ambient-cloud:nth-child(3) {
+ --cloud-color: var(--glow-b);
+ width: min(62vw, 820px);
+ height: 520px;
+ right: -170px;
+ top: -45px;
+ transform: rotate(-32deg);
+ opacity: .8;
+}
+/* A slightly smaller portrait and a higher resting position leave breathing room below. */
+@media (min-width: 1001px) {
+ .profile { top: 47%; }
+ .avatar-scene { width: 238px; height: 280px; }
+}
+@media (max-height: 850px) and (min-width: 1001px) {
+ .avatar-scene { width: 200px; height: 232px; }
+}
+:root[data-theme='green'] .site-header {
+ background: transparent;
+ backdrop-filter: none;
+ box-shadow: none;
+ isolation: isolate;
+}
+/* The blur fades below the navigation; there is no bar-shaped bottom edge. */
+:root[data-theme='green'] .site-header::before {
+ content: '';
+ position: absolute;
+ inset: 0 0 -26px;
+ z-index: -1;
+ pointer-events: none;
+ background: #ffffff40;
+ backdrop-filter: blur(16px);
+ mask-image: linear-gradient(#000 0%, #000 48%, transparent 100%);
+}
+:root[data-theme='green'] .brand { color: var(--accent); }
+:root[data-theme='green'] .nav a { color: #59625c; }
+:root[data-theme='green'] .nav a:hover,
+:root[data-theme='green'] .nav a.active { color: var(--accent-hover); }
+.news-time { color: var(--accent); }
+.education-timeline::before {
+ top: 27px;
+ bottom: 22px;
+ background: linear-gradient(var(--line), var(--accent) 60%, transparent);
+}
+.education-entry { margin-bottom: 18px; }
+.education-entry:last-child { margin-bottom: 0; }
+.education-entry::before { top: 27px; left: 1px; transform: translateX(-50%); box-sizing: border-box; box-shadow: 0 0 0 4px var(--soft); }
+.education-entry-incoming::before { top: 25px; width: 14px; height: 14px; background: white; border: 2px solid var(--accent); }
+.education-entry .timeline-date { top: 24px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.education-entry .education-card { margin: 0; }
+:root[data-atmosphere='off'] .ambient-backdrop { display: none; }
+@media (max-width: 1000px) {
+ .ambient-cloud { filter: blur(24px); }
+ .ambient-cloud:nth-child(1) { width: 690px; height: 560px; left: -290px; top: -130px; }
+ .ambient-cloud:nth-child(2) { width: 440px; height: 350px; left: 20%; top: -230px; }
+ .ambient-cloud:nth-child(3) { width: 560px; height: 420px; right: -300px; top: 30px; opacity: .6; }
+ .profile { padding-top: 32px; }
+ .avatar-scene { width: 215px; height: 262px; }
+}
+@media (max-width: 620px) {
+ .education-entry .education-head { flex-wrap: wrap; gap: 8px; }
+ .education-entry .education-institution { max-width: 100%; }
+ .education-entry .education-period { text-align: left; }
+ .education-entry .education-metrics { gap: 12px; }
+ .education-entry .education-metrics>div+div { padding-left: 14px; }
+}

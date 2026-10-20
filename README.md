@@ -10,7 +10,7 @@ A bilingual personal homepage for research, projects, open-source contributions,
 | [theme/violet](https://github.com/wangzh12023/personal-website/tree/theme/violet) | Violet version | [localhost:5174](http://localhost:5174/?lang=en) |
 | [archive/themes](https://github.com/wangzh12023/personal-website/tree/archive/themes) | Historical color studies and their Git history | Start manually when needed |
 
-The green and violet versions use the same content and layout. Their branch determines the color treatment. The archive retains the earlier five-theme picker and older content; it is not a current homepage or a production deployment source.
+The green version currently includes local typography, atmosphere, and athletics refinements; violet retains its previous presentation. Review six green palettes at [localhost:5173/palette-review.html](http://localhost:5173/palette-review.html); this review entry is not part of the production build. The archive retains the earlier five-theme picker and older content; it is not a current homepage or a production deployment source.
 
 ## Local development
 

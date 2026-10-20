@@ -1,0 +1,44 @@
+/* Broad, related color bands move through each pill rather than mixing at once. */
+.chip-lilac{--chip-ink:#655083;--chip-edge:#d9cbea;--chip-solid:#eee4fa;--chip-fill:linear-gradient(110deg,#eee4fa,#dcd4fa 50%,#e0efff);--chip-phase:-1s}
+.chip-sky{--chip-ink:#3e657c;--chip-edge:#c5dce9;--chip-solid:#e1f2fa;--chip-fill:linear-gradient(110deg,#d8f3f7,#dce8ff 50%,#e9dfff);--chip-phase:-3s}
+.chip-rose{--chip-ink:#86556d;--chip-edge:#e7ccd9;--chip-solid:#fbe5ef;--chip-fill:linear-gradient(110deg,#ffe2ec,#f1dcfb 50%,#fce8f2);--chip-phase:-5s}
+.chip-peach{--chip-ink:#8a6145;--chip-edge:#e8d2bd;--chip-solid:#ffead9;--chip-fill:linear-gradient(110deg,#ffecd3,#ffdfdf 50%,#f7e0f2);--chip-phase:-2s}
+.chip-prism{--chip-ink:#69577d;--chip-edge:#d9ccea;--chip-solid:#eee1fa;--chip-fill:linear-gradient(110deg,#ffe6d6,#f5dafa 50%,#d9eaff);--chip-phase:-4s}
+.community-links .chip-color,.portfolio-link.chip-color,.activity-tag.chip-color{
+ color:var(--chip-ink);border-color:var(--chip-edge);background:var(--chip-fill);
+ background-size:260% 100%;background-position:0% 50%;
+ animation:chip-flow 6s ease-in-out infinite alternate;animation-delay:var(--chip-phase,0s);
+ box-shadow:inset 0 1px 0 #ffffff8c;font-weight:600;
+}
+.community-links .chip-color,.portfolio-link.chip-color{transition:filter .2s,box-shadow .2s}
+.community-links .chip-color:hover,.portfolio-link.chip-color:hover{
+ color:var(--chip-ink);filter:saturate(1.08);
+ box-shadow:inset 0 1px 0 #ffffffa0,0 2px 7px #5c527013;
+}
+.badge.upcoming{
+ color:#654184;
+ background:linear-gradient(110deg,#eedcff,#d7baf4 45%,#d8caff 75%,#e2dcff);
+ background-size:260% 100%;background-position:0% 50%;
+ animation:chip-flow 6s ease-in-out infinite alternate;
+ box-shadow:inset 0 0 0 1px #bda0d34d,inset 0 1px 0 #ffffff70;
+}
+@keyframes chip-flow{from{background-position:0% 50%}to{background-position:100% 50%}}
+@media(prefers-reduced-motion:reduce){
+ .community-links .chip-color,.portfolio-link.chip-color,.activity-tag.chip-color{background:var(--chip-solid)}
+ .badge.upcoming{background:#e4d1f7}
+ .rainbow{background:#ead9f5}
+}
+
+/* These six labels use solid, distinct colors without pale mixed bands. */
+.chip-flat.chip-lilac,.chip-flat.chip-prism{--chip-solid:#7151ad}
+.chip-flat.chip-sky{--chip-solid:#326da6}
+.chip-flat.chip-rose{--chip-solid:#a54d6b}
+.chip-flat.chip-peach{--chip-solid:#966027}
+.activity-tag.chip-flat.chip-sky{--chip-solid:#347369}
+.community-links .chip-flat,.activity-tag.chip-flat{
+ background:var(--chip-solid);border-color:var(--chip-solid);color:#fff;
+ animation:none;box-shadow:none;
+}
+.community-links .chip-flat:hover{
+ color:#fff;filter:brightness(1.08);box-shadow:none;
+}
