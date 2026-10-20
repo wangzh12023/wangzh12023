@@ -1,7 +1,7 @@
 name: Check website
 on:
   push:
-    branches: [main, 'preview/**']
+    branches: [main, 'theme/**', 'archive/**']
   pull_request:
 permissions:
   contents: read
