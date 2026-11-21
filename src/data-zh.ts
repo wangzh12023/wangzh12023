@@ -4,6 +4,8 @@ type Locale = 'en' | 'zh';
 type WorkCopy = Pick<Work, 'title' | 'subtitle' | 'badge' | 'meta' | 'description' | 'tags' | 'details'> & Partial<Pick<Work, 'galleryHeading' | 'galleryCaptions'>>;
 
 const linkLabels: Record<string, string> = {
+  Paper: '论文',
+  Model: '模型',
   'Research overview': '研究概述',
   'Code contribution': '代码贡献',
   'Experiment toolkit': '实验工具',
@@ -20,6 +22,15 @@ const linkLabels: Record<string, string> = {
 };
 
 const workCopy: Record<string, WorkCopy> = {
+  'sage-s2-1-flash': {
+    title: 'Sage S2.1 Flash Technical Report',
+    subtitle: '320B MoE 模型的科学多模态推理与 Agent 能力',
+    badge: '技术报告 · Contributor',
+    meta: '上海人工智能实验室 · Zihan Wang（Contributor，附录 A.2）· 2026',
+    description: '在上海人工智能实验室研究实习期间参与 Sage S2.1 Flash 工作。这是一个面向科学多模态推理、工具调用与交互式 Agent 工作流的 320B MoE 模型。',
+    tags: ['LLM Post-training', 'Scientific Agents', 'Tool Use'],
+    details: `<h3>Sage S2.1 Flash</h3><p>一个融合科学多模态输入、搜索、编程与工具调用能力的 320B MoE 模型。上方论文主图展示了模型在 15 个代表性 benchmark 上的评测结果。</p><h3>我的参与</h3><p>我在上海人工智能实验室研究实习期间参与了该项目，实习方向为 LLM post-training、Agents 与 agent harnesses。论文<a href="https://arxiv.org/html/2611.21072v2#A1.SS2" target="_blank" rel="noopener noreferrer">附录 A.2 Contributors</a> 中以 <strong>Zihan Wang</strong> 署名。</p><p>该报告于 2026 年 11 月 17 日入选 Hugging Face <a href="https://huggingface.co/papers/2611.21072" target="_blank" rel="noopener noreferrer">#2 Paper of the day</a>。</p>`,
+  },
   motormap: {
     title: 'MotorMap / Windward',
     subtitle: '围绕地图与设备构建原生 iOS 体验',

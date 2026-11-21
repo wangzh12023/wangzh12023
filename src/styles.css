@@ -53,3 +53,10 @@
 @media(max-width:620px){.brand{gap:9px}.brand-emote{width:34px;height:34px;flex-basis:34px}}
 
 .organization-image.organization-starteam{padding:0;overflow:hidden;background:#e8e8e6}.organization-starteam img{width:100%;height:100%;object-fit:cover;transform:scale(1.45)}
+
+.work-badges{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+a.paper-recognition{display:inline-flex;align-items:center;gap:4px;padding:1px 10px;border:0;color:#604453;font-size:.69rem;font-weight:700;font-style:normal;line-height:1.6;white-space:nowrap;text-decoration:none;vertical-align:middle;transition:filter .18s}
+a.paper-recognition .ui-icon{width:11px;height:11px;color:inherit}
+a.paper-recognition:hover{color:#604453;text-decoration:none;filter:brightness(.96)}
+a.paper-recognition:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.news-list .paper-recognition{margin:0 2px}

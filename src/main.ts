@@ -12,20 +12,21 @@ import { medalIcon } from './medal';
 import { photographyMarkup, installPhotography } from './photography';
 import { scrollToSection, installMotion } from './motion';
 import { enhanceSelect } from './select';
-import { research, projects, smallProjects, type Work } from './data';
+import { research, projects, smallProjects, type Work, type Link } from './data';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
 const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const uiIcon = (name: string, cls = '') => `<span class="ui-icon ${cls}" aria-hidden="true" style="--icon:url('/assets/icons/${name}.svg')"></span>`;
 const external = (url: string, label: string, cls = '') => `<a href="${escapeHtml(url)}"${url.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}${cls ? ` class="${cls}"` : ''}>${label}</a>`;
+const workLink = (link: Link, suffix = '') => external(link.url, `${link.highlight ? uiIcon('trophy') + ' ' : ''}${escapeHtml(link.label)}${suffix}`, link.highlight ? 'badge rainbow paper-recognition' : '');
 const starBadge = (count: string, short: string) => `<span class="badge award star-badge" title="${t('upstreamStars',{count})}" aria-label="${t('upstreamStars',{count})}">${uiIcon('star')} ${short} stars</span>`;
 const workCard = (original: Work) => { const w = localizeWork(original, getLocale()); return `<article class="work-card" data-kind="${w.kind}" data-selected="${!!w.selected}">
  <a href="#work/${w.id}" class="work-image-link" aria-label="${escapeHtml(t('readAbout', {title:w.title}))}"><img class="work-image ${w.imageFit || ''}" src="${w.image}" alt="${escapeHtml(w.subtitle)}" width="240" height="160" loading="lazy"/><span class="image-action">${uiIcon(w.video?'play':'arrow-up-right')} ${t(w.video ? 'watchExplore' : 'explore')}</span></a>
- <div class="work-body"><span class="badge ${w.id === 'objecttalk' ? 'rainbow' : w.kind === 'research' ? 'research' : w.kind === 'systems' ? 'tool' : 'project'}">${w.badge}</span>
+ <div class="work-body"><div class="work-badges"><span class="badge ${w.id === 'objecttalk' ? 'rainbow' : w.kind === 'research' ? 'research' : w.kind === 'systems' ? 'tool' : 'project'}">${w.badge}</span>${w.links.filter(link => link.highlight).map(link => workLink(link)).join('')}</div>
  <a href="#work/${w.id}" class="work-title">${w.title}</a><p class="work-meta">${w.meta}</p><p class="work-description">${w.description}</p>
  <div class="tags">${w.tags.map((t,i) => `<span class="tag ${t==='Selected' || t==='精选' ? 'rainbow' : `tag-tone-${i%4}`}">#${t}</span>`).join('')}</div>
- <div class="work-links">${w.links.map(l => `<span>${external(l.url,l.label)}</span>`).join('')}</div></div></article>`; };
+ <div class="work-links">${w.links.filter(link => !link.highlight).map(link => `<span>${workLink(link)}</span>`).join('')}</div></div></article>`; };
 
 type ArchiveMedia = { file: string; en: string; zh: string };
 const archiveMedia: Record<string, ArchiveMedia> = {
@@ -86,7 +87,8 @@ function render() {
   </section>
   <section class="section" id="news"><h2 class="section-heading">${t('news')}</h2>
    <ul class="news-list">
-    <li><time class="news-time" datetime="2026-10-23">2026.10</time><span><span class="badge upcoming">${t('upcoming')}</span> ${t('newsTalk')}</span></li>
+    <li><time class="news-time" datetime="2026-11-17">2026.11</time><span>${t('newsSage',{paper:external('https://arxiv.org/abs/2611.21072v2','Sage S2.1 Flash'),model:external('https://huggingface.co/internlm/Sage-S2.1-Flash',t('sageModel')),daily:external('https://huggingface.co/papers/2611.21072',uiIcon('trophy')+' #2 Paper of the day','badge rainbow paper-recognition')})}</span></li>
+    <li><time class="news-time" datetime="2026-10-23">2026.10</time><span>${t('newsTalk')}</span></li>
     <li><time class="news-time" datetime="2026">2026</time><span>${t('newsObject',{award:uiIcon('trophy'),demo:external('https://objecttalk-demo.vercel.app/',t('tryDemo'))})}</span></li>
     <li><time class="news-time" datetime="2026-09-20">2026.09</time><span>${t('newsPpt',{link:external('https://github.com/icip-cas/PPTAgent',t('pptWorkflow'))})}</span></li>
     <li><time class="news-time" datetime="2026">2026</time><span>${t('newsResearch')}</span></li>
@@ -108,7 +110,7 @@ function render() {
    <ul class="teaching-list"><li><div class="teaching-course"><h3>${t('probabilityCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('spring2026')}</span></li><li><div class="teaching-course"><h3>${t('calculusCourse')}</h3><p>${t('taSchool')}</p></div><span class="teaching-term">${t('fall2025')}</span></li></ul>
    <div class="work-card" style="border-bottom:1px dashed #bbb"><a href="https://openshtu.github.io/Baoyan-Wiki/" target="_blank" rel="noopener noreferrer" class="work-image-link"><img src="/assets/projects/baoyan-wiki.png" alt="${t('wikiAlt')}" class="work-image" width="240" height="160" loading="lazy"/></a><div class="work-body"><span class="badge community">${t('openEducation')}</span><a class="work-title" href="https://github.com/OpenSHTU" target="_blank" rel="noopener noreferrer">${t('openShtuTitle')}</a><p class="work-description">${t('openShtuCopy')}</p><div class="work-links"><span>${external('https://openshtu.github.io/Baoyan-Wiki/',t('baoyanWiki'))}</span><span>${external('https://github.com/OpenSHTU',t('organization'))}</span></div></div></div>
    <div class="community-links">${external('https://github.com/OpenSHTU/AI-Wiki',t('aiWiki'),'chip-color chip-flat chip-lilac')}${external('https://github.com/OpenSHTU',t('schoolResources'),'chip-color chip-flat chip-sky')}${external('https://github.com/wangzh12023/baoyan-resume-template',t('resumeTemplate'),'chip-color chip-flat chip-rose')}${external('https://github.com/wangzh12023/baoyan-poster-template',t('posterToolkit'),'chip-color chip-flat chip-peach')}</div>
-   <article class="talk"><a href="/assets/research/sharing-poster.webp" target="_blank" rel="noopener"><img src="/assets/research/sharing-poster.webp" alt="${t('posterAlt')}" loading="lazy"/></a><div><span class="badge upcoming" id="talk-status">${t('talkUpcoming')}</span><h3 style="font-size:.9rem;margin-top:5px">${t('talkTitle')}</h3><p>${t('talkCopy')}</p><small style="color:#888">18:30–18:55 · SIST 1A-200</small></div></article>
+   <article class="talk"><a href="/assets/research/sharing-poster.webp" target="_blank" rel="noopener"><img src="/assets/research/sharing-poster.webp" alt="${t('posterAlt')}" loading="lazy"/></a><div><span class="badge community" id="talk-status">${t('talkCompleted')}</span><h3 style="font-size:.9rem;margin-top:5px">${t('talkTitle')}</h3><p>${t('talkCopy')}</p><small style="color:#888">18:30–18:55 · SIST 1A-200</small></div></article>
   </section>
   <section class="section" id="experience"><h2 class="section-heading">${t('experience')}</h2><div class="timeline">
    <article class="timeline-item"><span class="timeline-date">2026<br>– ${t('present')}</span><div class="experience-card"><div class="experience-header"><div class="org-name"><a class="organization-image organization-wide organization-dark" href="https://www.shlab.org.cn/" target="_blank" rel="noopener noreferrer"><img src="/assets/organizations/shanghai-ai-lab.webp" alt="" loading="lazy"/></a><div><h3 class="experience-title">${external('https://www.shlab.org.cn/',t('ailab'))}</h3><span class="experience-sub">${t('aiLabRole')}</span></div></div><span class="badge tool">${t('internship')}</span></div><p>${t('aiLabCopy')}</p></div></article>
@@ -221,7 +223,7 @@ function openWork(id:string, restore?:{scroll:number;videoTime?:number;wasPlayin
  const dialog=app.querySelector<HTMLDialogElement>('.project-dialog')!;
  if(!restore)lastFocus=document.activeElement as HTMLElement;
  dialogId=id;
- dialog.querySelector<HTMLElement>('.dialog-inner')!.innerHTML=`<div class="dialog-eyebrow">${work.badge}</div><h2 class="dialog-title">${work.title}</h2><p class="dialog-lede">${work.subtitle}</p><p class="work-meta">${work.meta}</p><div class="dialog-links">${work.links.filter(link=>!link.url.startsWith('#')).map(link=>external(link.url,link.label+' ↗')).join('')}</div><img class="dialog-media" src="${work.image}" alt="${escapeHtml(work.subtitle)}"/><div class="dialog-body">${work.details}${work.video?`<h3>${t('inMotion')}</h3><video controls playsinline preload="none" poster="${work.image}"><source src="${work.video}" type="video/mp4"/></video>`:''}${work.gallery?`<h3>${escapeHtml(work.galleryHeading ?? t('closerLook'))}</h3><div class="dialog-gallery">${work.gallery.map((src,index)=>{const caption=work.galleryCaptions?.[index] ?? t('projectFigure',{title:work.title,number:index+1});return `<figure><a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${escapeHtml(caption)}" loading="lazy"/></a><figcaption>${escapeHtml(caption)}</figcaption></figure>`}).join('')}</div>`:''}</div>`;
+ dialog.querySelector<HTMLElement>('.dialog-inner')!.innerHTML=`<div class="dialog-eyebrow">${work.badge}</div><h2 class="dialog-title">${work.title}</h2><p class="dialog-lede">${work.subtitle}</p><p class="work-meta">${work.meta}</p><div class="dialog-links">${work.links.filter(link=>!link.url.startsWith('#')).map(link=>workLink(link,' ↗')).join('')}</div><img class="dialog-media" src="${work.image}" alt="${escapeHtml(work.subtitle)}"/><div class="dialog-body">${work.details}${work.video?`<h3>${t('inMotion')}</h3><video controls playsinline preload="none" poster="${work.image}"><source src="${work.video}" type="video/mp4"/></video>`:''}${work.gallery?`<h3>${escapeHtml(work.galleryHeading ?? t('closerLook'))}</h3><div class="dialog-gallery">${work.gallery.map((src,index)=>{const caption=work.galleryCaptions?.[index] ?? t('projectFigure',{title:work.title,number:index+1});return `<figure><a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${escapeHtml(caption)}" loading="lazy"/></a><figcaption>${escapeHtml(caption)}</figcaption></figure>`}).join('')}</div>`:''}</div>`;
  if(!dialog.open)dialog.showModal();
  document.body.style.overflow='hidden';
  dialog.scrollTop=restore?.scroll ?? 0;

@@ -2,6 +2,12 @@
 
 The portrait and research figures come from Zihan Wang’s supplied materials. Research assets are extracted figures rather than full private documents. Original application files are excluded from the repository.
 
+## Sage S2.1 Flash (November 2026)
+
+- `research/sage-s2.1-flash-main.webp`: Figure 1 (main evaluation overview), downloaded from https://arxiv.org/html/2611.21072v2/evaluation-overview.png and encoded as a 1800 px wide WebP without changing the figure content. Original figure rights remain with the paper’s authors.
+- Report: https://arxiv.org/abs/2611.21072v2; Zihan Wang is listed in Appendix A.2, Contributors (not A.1, Core Contributors). The site owner confirms participation during his Shanghai AI Lab internship; no specific subtask ownership is claimed.
+- Model: https://huggingface.co/internlm/Sage-S2.1-Flash. Hugging Face paper page https://huggingface.co/papers/2611.21072 records “#2 Paper of the day”, linking to November 17, 2026. Checked November 21, 2026.
+
 Project screenshots and demonstration videos are shown to describe their respective projects. Their source repositories retain ownership, authorship, and third-party asset notices. A screenshot does not imply authorship of every component or upstream asset.
 
 | Asset group | Source and attribution |
